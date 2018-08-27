@@ -1,0 +1,6 @@
+if ! ip link | grep "state UP" 
+then
+lxterminal -e sudo raspi-config
+fi
+emby-theater
+openbox --exit
