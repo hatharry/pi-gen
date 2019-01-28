@@ -1,15 +1,15 @@
 #!/bin/bash -e
 
-IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.img"
-INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}.info"
+IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
+INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
 
 on_chroot << EOF
 /etc/init.d/fake-hwclock stop
 hardlink -t /usr/share/doc
 EOF
 
-if [ -d "${ROOTFS_DIR}/home/pi/.config" ]; then
-	chmod 700 "${ROOTFS_DIR}/home/pi/.config"
+if [ -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config" ]; then
+	chmod 700 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config"
 fi
 
 rm -f "${ROOTFS_DIR}/etc/apt/apt.conf.d/51cache"
@@ -74,10 +74,10 @@ unmount_image "${IMG_FILE}"
 
 mkdir -p "${DEPLOY_DIR}"
 
-rm -f "${DEPLOY_DIR}/${ZIP_FILENAME}.zip"
+rm -f "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip"
 
 pushd "${STAGE_WORK_DIR}" > /dev/null
-zip "${DEPLOY_DIR}/${ZIP_FILENAME}.zip" \
+zip "${DEPLOY_DIR}/${ZIP_FILENAME}${IMG_SUFFIX}.zip" \
 	"$(basename "${IMG_FILE}")"
 popd > /dev/null
 

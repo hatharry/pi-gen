@@ -144,8 +144,8 @@ fi
 
 export USE_QEMU="${USE_QEMU:-0}"
 export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
-export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}"}"
+export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
+export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SCRIPT_DIR="${BASE_DIR}/scripts"
@@ -189,13 +189,21 @@ source "${SCRIPT_DIR}/common"
 # shellcheck source=scripts/dependencies_check
 source "${SCRIPT_DIR}/dependencies_check"
 
+#check username is valid
+if [[ ! "$FIRST_USER_NAME" =~ ^[a-z][-a-z0-9_]*$ ]]; then
+	echo "Invalid FIRST_USER_NAME: $FIRST_USER_NAME"
+	exit 1
+fi
 
 dependencies_check "${BASE_DIR}/depends"
 
 mkdir -p "${WORK_DIR}"
 log "Begin ${BASE_DIR}"
 
-for STAGE_DIR in "${BASE_DIR}/stage"*; do
+STAGE_LIST=${STAGE_LIST:-${BASE_DIR}/stage*}
+
+for STAGE_DIR_ in $STAGE_LIST; do
+	STAGE_DIR=`realpath "${STAGE_DIR_}"`
 	run_stage
 done
 
