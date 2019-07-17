@@ -68,5 +68,5 @@ EOF
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
 
 on_chroot << EOF
-echo "y" | rpi-update
+curl https://raw.githubusercontent.com/hatharry/rpi-update/master/rpi-update | UPDATE_SELF=0 SKIP_CHECK_PARTITION=1 SKIP_WARNING=1 SKIP_BACKUP=1 bash -
 EOF
