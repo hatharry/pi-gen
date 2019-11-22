@@ -6,7 +6,7 @@ _Tool used to create the raspberrypi.org Raspbian images_
 ## Dependencies
 
 pi-gen runs on Debian based operating systems. Currently it is only supported on
-either Debian Stretch or Ubuntu Xenial and is known to have issues building on
+either Debian Buster or Ubuntu Xenial and is known to have issues building on
 earlier releases of these systems. On other Linux distributions it may be possible
 to use the Docker build described below.
 
@@ -62,7 +62,7 @@ The following environment variables are supported:
    be built and cached.  Note, `WORK_DIR` stores a complete copy of the target
    system for each build stage, amounting to tens of gigabytes in the case of
    Raspbian.
-   
+
    **CAUTION**: If your working directory is on an NTFS partition you probably won't be able to build. Make sure this is a proper Linux filesystem.
 
  * `DEPLOY_DIR`  (Default: `"$BASE_DIR/deploy"`)
@@ -77,6 +77,37 @@ The following environment variables are supported:
 
    Setting to '1' enables the QEMU mode - creating an image that can be mounted via QEMU for an emulated
    environment. These images include "-qemu" in the image file name.
+
+ * `LOCALE_DEFAULT` (Default: "en_GB.UTF-8" )
+
+   Default system locale.
+
+ * `HOSTNAME` (Default: "raspberrypi" )
+
+   Setting the hostname to the specified value.
+
+ * `KEYBOARD_KEYMAP` (Default: "gb" )
+
+   Default keyboard keymap.
+
+   To get the current value from a running system, run `debconf-show
+   keyboard-configuration` and look at the
+   `keyboard-configuration/xkb-keymap` value.
+
+ * `KEYBOARD_LAYOUT` (Default: "English (UK)" )
+
+   Default keyboard layout.
+
+   To get the current value from a running system, run `debconf-show
+   keyboard-configuration` and look at the
+   `keyboard-configuration/variant` value.
+
+ * `TIMEZONE_DEFAULT` (Default: "Europe/London" )
+
+   Default keyboard layout.
+
+   To get the current value from a running system, look in
+   `/etc/timezone`.
 
  * `FIRST_USER_NAME` (Default: "pi" )
 
