@@ -66,7 +66,3 @@ usermod --pass='*' root
 EOF
 
 rm -f "${ROOTFS_DIR}/etc/ssh/"ssh_host_*_key*
-
-on_chroot << EOF
-UPDATE_SELF=1 SKIP_CHECK_PARTITION=1 SKIP_WARNING=1 SKIP_BACKUP=1 rpi-update
-EOF
